@@ -8,10 +8,10 @@ export class User {
     @Column()
     nome: string;
 
-    @Column()
+    @Column({ unique: true })
     email: string;
 
-    @Column()
+    @Column({ select: false })
     senha: string;
 
     @OneToMany(type => Task, task => task.user)
