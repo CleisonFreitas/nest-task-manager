@@ -20,7 +20,7 @@ export class TasksService {
 
         @InjectModel('TaskMetadata')
         private readonly taskMetadataModel: Model<any>
-    ) { }
+    ) {}
 
     async findAll(userId: number): Promise<TaskResponseDTO[]> {
         const tasks = await this.taskRepository.find({
