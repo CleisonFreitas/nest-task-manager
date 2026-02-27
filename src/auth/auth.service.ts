@@ -21,7 +21,6 @@ export class AuthService {
     ) {}
 
     async register(dto: RegisterDTO): Promise<Record<any, string>> {
-        console.log('metodo register está sendo chamado.');
         const userExists = await this.usersRepository.findOne({
             where: { email: dto.email },
         });
