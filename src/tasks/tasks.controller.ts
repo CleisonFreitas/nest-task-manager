@@ -20,7 +20,6 @@ import {
 } from '@nestjs/swagger';
 import { TasksService } from './tasks.service';
 import { AuthGuard } from '@nestjs/passport';
-import { Task } from './task.entity';
 import { TaskDTO } from './task.dto';
 import type { AuthReqType } from 'src/auth/auth-req.type';
 import { User } from 'src/users/user.entity';
