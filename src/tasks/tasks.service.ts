@@ -1,5 +1,4 @@
 import {
-    Inject,
     Injectable,
     NotFoundException,
     ForbiddenException,
@@ -9,20 +8,22 @@ import { Model } from 'mongoose';
 import { Task } from './task.entity';
 import { TaskDTO } from './task.dto';
 import { User } from 'src/users/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class TasksService {
     constructor(
-        @Inject('TASK_REPOSITORY')
+        @InjectRepository(Task)
         private readonly taskRepository: Repository<Task>,
 
-        @Inject('TASK_METADATA_MODEL')
-        private readonly taskMetadataModel: Model<any>,
-    ) { }
+        @InjectModel('TaskMetadata')
+        private readonly taskMetadataModel: Model<any>
+    ) {}
 
-    async findAll(userId: number): Promise<Task[]> {
+    async findAll(userId: string| number): Promise<Task[]> {
         return this.taskRepository.find({
-            where: { user: { id: userId } },
+            where: { user: { id: userId as number } },
             relations: ['user'],
         });
     }

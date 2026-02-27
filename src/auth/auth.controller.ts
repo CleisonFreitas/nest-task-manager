@@ -8,7 +8,8 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  register(@Body() dto: RegisterDTO) {
+  register(@Body() dto: RegisterDTO): Promise<Record<any, string>> {
+    console.log('metodo register está sendo chamado.');
     return this.authService.register(dto);
   }
 

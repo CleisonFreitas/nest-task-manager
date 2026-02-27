@@ -6,10 +6,10 @@ export class TaskDTO {
     @MaxLength(100)
     titulo: string;
 
-    @IsString()
-    @MinLength(5)
+    @IsOptional()
+    @MinLength(3)
     @MaxLength(500)
-    descricao: string;
+    descricao?: string;
 
     @IsBoolean()
     @IsOptional()

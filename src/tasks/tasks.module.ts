@@ -1,21 +1,22 @@
 import { Module } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { TasksController } from './tasks.controller';
-import { tasksProviders } from './tasks.provider';
-import { DatabaseModule } from 'src/database/database.module';
-import { MongoModule } from 'src/database/mongo.module';
-import { taskMetadataProviders } from 'src/database/task-metadata.providers';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Task } from './task.entity';
+import { TaskMetadataSchema } from 'src/database/task-metadata.schema';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
-    DatabaseModule,
-    MongoModule
-  ],
-  providers: [
-    ...tasksProviders,
-    ...taskMetadataProviders,
-    TasksService,
-  ],
-  controllers: [TasksController]
+    TypeOrmModule.forFeature([Task]),
+    MongooseModule.forFeature([
+      {
+        name: 'TaskMetadata',
+        schema: TaskMetadataSchema,
+      },
+    ]),
+],
+  providers: [TasksService],
+  controllers: [TasksController],
 })
-export class TasksModule { }
+export class TasksModule {}
