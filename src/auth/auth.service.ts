@@ -10,16 +10,17 @@ import { User } from '../users/user.entity';
 import { RegisterDTO } from './dto/register.dto';
 import { LoginDTO } from './dto/login.dto';
 import * as bcrypt from 'bcrypt';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AuthService {
     constructor(
-        @Inject('USER_REPOSITORY')
+        @InjectRepository(User)
         private readonly usersRepository: Repository<User>,
         private readonly jwtService: JwtService,
-    ) { }
+    ) {}
 
-    async register(dto: RegisterDTO) {
+    async register(dto: RegisterDTO): Promise<Record<any, string>> {
         const userExists = await this.usersRepository.findOne({
             where: { email: dto.email },
         });
@@ -37,10 +38,10 @@ export class AuthService {
 
         await this.usersRepository.save(user);
 
-        return { message: 'Usuário criado com sucesso' };
+        return this.generateToken(user);
     }
 
-    async login(dto: LoginDTO) {
+    async login(dto: LoginDTO): Promise<Record<any, string>> {
         const user = await this.usersRepository.findOne({
             where: { email: dto.email },
             select: ['id', 'email', 'senha'],
@@ -56,6 +57,10 @@ export class AuthService {
             throw new UnauthorizedException('Credenciais inválidas');
         }
 
+        return this.generateToken(user);
+    }
+
+    private generateToken(user: User): Record<any, string> {
         const payload = { sub: user.id, email: user.email };
 
         return {

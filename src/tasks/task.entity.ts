@@ -1,6 +1,7 @@
 import { User } from "src/users/user.entity";
-import { Column, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
+@Entity('tasks')
 export class Task {
     @PrimaryGeneratedColumn()
     id: number;
@@ -8,12 +9,12 @@ export class Task {
     @Column()
     titulo: string;
 
-    @Column()
+    @Column({ nullable: true })
     descricao: string;
 
     @Column({ default: false })
     concluida: boolean;
 
-    @ManyToMany(() => User, user => user.tasks)
+    @ManyToOne(() => User, user => user.tasks)
     user: User;
 }
