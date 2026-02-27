@@ -2,7 +2,7 @@
 
 set -e
 
-echo "🚀 Iniciando setup da aplicação..."
+echo "Iniciando setup da aplicação..."
 
 # -----------------------------
 # 1️⃣ Verificar Docker
@@ -10,17 +10,17 @@ echo "🚀 Iniciando setup da aplicação..."
 
 if ! command -v docker &> /dev/null
 then
-    echo "❌ Docker não está instalado."
+    echo "Docker não está instalado."
     exit 1
 fi
 
 if ! docker info > /dev/null 2>&1
 then
-    echo "❌ Docker não está rodando."
+    echo "Docker não está rodando."
     exit 1
 fi
 
-echo "✅ Docker detectado."
+echo "Docker detectado."
 
 # -----------------------------
 # 2️⃣ Verificar docker compose
@@ -28,20 +28,20 @@ echo "✅ Docker detectado."
 
 if ! docker compose version &> /dev/null
 then
-    echo "❌ Docker Compose não encontrado."
+    echo "Docker Compose não encontrado."
     exit 1
 fi
 
-echo "✅ Docker Compose detectado."
+echo "Docker Compose detectado."
 
 # -----------------------------
 # 3️⃣ Criar .env se não existir
 # -----------------------------
 
 if [ -f ".env" ]; then
-    echo "⚠️  Arquivo .env já existe."
+    echo "Arquivo .env já existe."
 else
-    echo "📄 Criando .env..."
+    echo "Criando .env..."
 
     cp .env.example .env
 
@@ -60,24 +60,24 @@ else
 
     rm .env.bak
 
-    echo "🔐 Secrets gerados com sucesso."
+    echo "Secrets gerados com sucesso."
 fi
 
 # -----------------------------
 # 4️⃣ Build e subida dos containers
 # -----------------------------
 
-echo "🐳 Buildando imagens..."
+echo "Buildando imagens..."
 docker compose build
 
-echo "🐳 Subindo containers..."
+echo "Subindo containers..."
 docker compose up -d
 
 echo ""
-echo "✅ Ambiente configurado com sucesso!"
+echo "Ambiente configurado com sucesso!"
 echo ""
-echo "🌍 API: http://localhost:3000"
-echo "📘 Swagger: http://localhost:3000/docs"
+echo "API: http://localhost:3000"
+echo "Swagger: http://localhost:3000/docs"
 echo ""
-echo "📦 Para visualizar logs:"
+echo "Para visualizar logs:"
 echo "docker compose logs -f"
