@@ -48,13 +48,6 @@ export class TasksController {
         description: 'Tarefa encontrada',
         type: TaskResponseDTO,
     })
-    @Get(':id')
-    async show(
-        @Param('id', ParseIntPipe) id: number,
-        @Req() req: AuthReqType,
-    ): Promise<TaskResponseDTO> {
-        return this.tasksService.findOne(id, req.user.id);
-    }
 
     @ApiOperation({ summary: 'Criar nova tarefa' })
     @ApiCreatedResponse({
