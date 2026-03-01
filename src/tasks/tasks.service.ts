@@ -30,23 +30,6 @@ export class TasksService {
         return tasks.map(task => this.toResponseDTO(task));
     }
 
-    async findOne(id: number, userId: number): Promise<TaskResponseDTO> {
-        const task = await this.taskRepository.findOne({
-            where: { id },
-            relations: ['user'],
-        });
-
-        if (!task) {
-            throw new NotFoundException('Task não encontrada');
-        }
-
-        if (task.user.id !== userId) {
-            throw new ForbiddenException('Acesso negado');
-        }
-
-        return this.toResponseDTO(task);
-    }
-
     async create(dto: TaskDTO, user: User): Promise<TaskResponseDTO> {
         const task = await this.taskRepository.save({
             ...dto,
@@ -67,7 +50,6 @@ export class TasksService {
         dto: TaskDTO,
         userId: number,
     ): Promise<TaskResponseDTO> {
-
         const task = await this.findOneEntity(id, userId);
 
         Object.assign(task, dto);
