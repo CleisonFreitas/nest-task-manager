@@ -23,6 +23,11 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
 
+  app.enableCors({
+    origin: 'http://localhost:4200',
+    credentials: true
+  });
+
   SwaggerModule.setup('docs', app, document);
 
   app.useGlobalInterceptors(new ResponseInterceptor());
